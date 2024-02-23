@@ -1,0 +1,12 @@
+#How to concatenate fasta files?#
+
+#ARCHIVOS RAW#
+PS C:\Users\viole_24z1gj0> cd Desktop
+PS C:\Users\viole_24z1gj0\Desktop> ls
+#A cntinuación aparecen todos los archivos del escritorio#
+PS C:\Users\viole_24z1gj0\Desktop> Get-Content H05y6.fasta.seq, H07y8.fasta.seq, H09.fasta.seq | Set-Content HALLRAW.fasta.seq
+PS C:\Users\viole_24z1gj0\Desktop>
+
+#How to concatenate txt files?#
+PS C:\Users\viole_24z1gj0\desktop> Get-Content H05_MODIF2024.fasta.txt, H06_MODIF2024.fasta.txt, H07_MODIF2024.fasta.txt, H08_MODIF2024.fasta.txt, H09_MODIF2024.fasta.txt | Set-Content HALLCLEAN.fasta.txt
+PS C:\Users\viole_24z1gj0\desktop>
