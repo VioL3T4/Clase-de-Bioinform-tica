@@ -1,0 +1,57 @@
+##Scrip Tarea del jueves 23 de mayo de 2024##
+
+	#1.Open Data frame "mtcars"#
+str(mtcars)
+data<-as.matrix(mtcars)
+View(data)
+	#2.Hacer heatmap#
+heatmap(data, scale="column")
+heatmap(data, Colv = NA, Rowv = NA, scale="column")
+	#3.correlaciones ANOVA#
+#Convierta una columna numérica o de caracteres en una variable de factor, usando as.factor()#
+my_group <- as.numeric(as.factor(substr(rownames(data), 1 , 1)))
+mtcars$cyl <- as.factor(mtcars$cyl)
+mtcars$am <- as.factor(mtcars$am)
+mtcars$vs <- as.factor(mtcars$vs)
+mtcars$gear <- as.factor(mtcars$gear)
+class(mtcars$cyl)
+class(mtcars$am)
+class(mtcars$vs)
+class(mtcars$gear)
+AnovaOneWay <- aov(wt~cyl, data = mtcars)
+summary(AnovaOneWay)
+	#4.Loops para sacar promedio#
+df<-mtcars
+df
+View(df)
+output<-vector("double",ncol(df))
+for(i in seq_along(df)){output[[i]] <- mean(df[[i]])}
+output  
+	#5.PCA#
+summary(mtcars)
+pcaCars <- princomp(mtcars, cor = TRUE)
+names(pcaCars)
+summary(pcaCars)
+plot(pcaCars)
+plot(pcaCars, type = "l")
+carsHC <- hclust(dist(pcaCars$scores), method = "ward.D2")
+plot(carsHC)
+carsClusters <- cutree(carsHC, k = 3)
+plot(carsHC)
+rect.hclust(carsHC, k=3, border="red")
+carsDf <- data.frame(pcaCars$scores, "cluster" = factor(carsClusters))
+str(carsDf)
+install.packages("ggplot2")
+install.packages("ggrepel")
+library(ggplot2)
+library(ggrepel)
+ggplot(carsDf,aes(x=Comp.1, y=Comp.2)) +
+  +     geom_text_repel(aes(label = rownames(carsDf))) +
+  +     theme_classic() +
+  +     geom_hline(yintercept = 0, color = "gray70") +
+  +     geom_vline(xintercept = 0, color = "gray70") +
+  +     geom_point(aes(color = cluster), alpha = 0.55, size = 3) +
+  +     xlab("PC1") +
+  +     ylab("PC2") + 
+  +     xlim(-5, 6) + 
+  +     ggtitle("PCA plot of Cars")
